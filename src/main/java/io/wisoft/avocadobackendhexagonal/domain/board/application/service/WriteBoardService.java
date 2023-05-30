@@ -4,7 +4,6 @@ import io.wisoft.avocadobackendhexagonal.domain.board.application.port.in.WriteB
 import io.wisoft.avocadobackendhexagonal.domain.board.application.port.in.command.WriteBoardCommand;
 import io.wisoft.avocadobackendhexagonal.domain.board.application.port.out.SaveBoardPort;
 import io.wisoft.avocadobackendhexagonal.domain.board.domain.Board;
-import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberMapper;
 import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.LoadMemberPort;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +18,8 @@ public class WriteBoardService implements WriteBoardUseCase {
 
     @Override
     public Long writeBoard(final WriteBoardCommand request) {
-        final Member member = MemberMapper.memberEntityToMember(loadMemberPort.findById(request.memberId()));
-
-        final Board board = Board.simpleBoard(request.title(), request.body(), member);
+        final Member member = loadMemberPort.findById(request.memberId());
+        final Board board = Board.withoutId(request.title(), request.body(), member);
 
         return saveBoardPort.save(board);
     }

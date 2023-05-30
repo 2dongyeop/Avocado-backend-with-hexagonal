@@ -1,8 +1,8 @@
 package io.wisoft.avocadobackendhexagonal.domain.member.application.port.out;
 
-import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberEntity;
+import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 
 public interface LoadMemberPort {
 
-    MemberEntity findById(final Long memberId);
+    Member findById(final Long memberId);
 }
