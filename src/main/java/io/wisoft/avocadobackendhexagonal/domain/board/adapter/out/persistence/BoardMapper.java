@@ -9,7 +9,7 @@ import static io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persis
 @Component
 public class BoardMapper {
 
-    public BoardEntity boardToBoardEntity(final Board board) {
+    public static BoardEntity boardToBoardEntity(final Board board) {
 
         return new BoardEntity(
                 board.getId() == null ? null : board.getId().longValue(),
@@ -19,7 +19,7 @@ public class BoardMapper {
         );
     }
 
-    public Board boardEntityToBoard(final BoardEntity boardEntity) {
+    public static Board boardEntityToBoard(final BoardEntity boardEntity) {
 
         return new Board(
                 boardEntity.getId(),

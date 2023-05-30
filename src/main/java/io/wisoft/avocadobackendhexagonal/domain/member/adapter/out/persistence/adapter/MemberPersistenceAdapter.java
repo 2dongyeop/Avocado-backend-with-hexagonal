@@ -22,7 +22,10 @@ public class MemberPersistenceAdapter implements SignUpPort, LoadMemberPort {
     }
 
     @Override
-    public MemberEntity findById(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+    public Member findById(Long memberId) {
+        final MemberEntity memberEntity = memberRepository.findById(memberId)
+                .orElseThrow(IllegalArgumentException::new);
+
+        return MemberMapper.memberEntityToMember(memberEntity);
     }
 }
