@@ -1,8 +1,8 @@
-package io.wisoft.avocadobackendhexagonal.domain.member.adapter.in.web;
+package io.wisoft.avocadobackendhexagonal.domain.auth.adapter.in.web;
 
-import io.wisoft.avocadobackendhexagonal.domain.member.adapter.in.web.dto.SignupRequest;
-import io.wisoft.avocadobackendhexagonal.domain.member.application.port.in.SignupUseCase;
-import io.wisoft.avocadobackendhexagonal.domain.member.application.port.in.command.SignupCommand;
+import io.wisoft.avocadobackendhexagonal.domain.auth.adapter.in.web.dto.SignupRequest;
+import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.SignupUseCase;
+import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command.SignupCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

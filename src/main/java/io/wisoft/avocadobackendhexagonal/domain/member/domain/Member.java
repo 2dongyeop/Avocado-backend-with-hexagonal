@@ -25,4 +25,8 @@ public class Member {
 
         return member;
     }
+
+    public void update(final String email) {
+        this.email = email;
+    }
 }
