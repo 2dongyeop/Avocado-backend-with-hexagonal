@@ -1,8 +1,8 @@
-package io.wisoft.avocadobackendhexagonal.domain.member.application.service;
+package io.wisoft.avocadobackendhexagonal.domain.auth.application.service;
 
-import io.wisoft.avocadobackendhexagonal.domain.member.application.port.in.SignupUseCase;
-import io.wisoft.avocadobackendhexagonal.domain.member.application.port.in.command.SignupCommand;
-import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.SignUpPort;
+import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.SignupUseCase;
+import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command.SignupCommand;
+import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.out.SignUpPort;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

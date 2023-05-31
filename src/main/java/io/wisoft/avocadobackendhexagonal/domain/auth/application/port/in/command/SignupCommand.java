@@ -1,8 +1,8 @@
-package io.wisoft.avocadobackendhexagonal.domain.member.adapter.in.web.dto;
+package io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command;
 
 import jakarta.validation.constraints.NotBlank;
 
-public record SignupRequest(
+public record SignupCommand(
         @NotBlank String email,
         @NotBlank String password
 ) {

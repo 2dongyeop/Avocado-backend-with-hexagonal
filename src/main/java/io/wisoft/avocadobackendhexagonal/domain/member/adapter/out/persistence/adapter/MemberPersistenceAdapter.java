@@ -4,7 +4,7 @@ import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.M
 import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberMapper;
 import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberRepository;
 import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.LoadMemberPort;
-import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.SignUpPort;
+import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.out.SignUpPort;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
