@@ -7,18 +7,24 @@ import org.springframework.stereotype.Component;
 public class MemberMapper {
 
     public static MemberEntity memberToMemberEntity(final Member member) {
-        return new MemberEntity(
+        return MemberEntity.createMemberEntity(
                 member.getId() == null? null : member.getId(),
                 member.getEmail(),
-                member.getPassword()
+                member.getNickname(),
+                member.getPassword(),
+                member.getPhoneNumber(),
+                member.getMemberPhotoPath()
         );
     }
 
     public static Member memberEntityToMember(final MemberEntity memberEntity) {
-        return new Member(
+        return Member.createMember(
                 memberEntity.getId(),
                 memberEntity.getEmail(),
-                memberEntity.getPassword()
+                memberEntity.getNickname(),
+                memberEntity.getPassword(),
+                memberEntity.getPhoneNumber(),
+                memberEntity.getMemberPhotoPath()
         );
     }
 }

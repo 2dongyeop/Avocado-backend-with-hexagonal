@@ -4,5 +4,7 @@ package io.wisoft.avocadobackendhexagonal.domain.board.application.port.in.comma
 public record BoardCommand(
         String title,
         String body,
+        String boardPhotoPath,
+        String dept,
         String writer
 ) { }

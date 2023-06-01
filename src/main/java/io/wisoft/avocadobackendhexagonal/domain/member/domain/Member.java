@@ -10,18 +10,26 @@ public class Member {
 
     private Long id;
     private String email;
+    private String nickname;
     private String password;
+    private String phoneNumber;
+    private String memberPhotoPath;
 
-    public Member(final Long id, final String email, final String password) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-    }
+    public static Member createMember(
+            final Long id,
+            final String email,
+            final String nickname,
+            final String password,
+            final String phoneNumber,
+            final String memberPhotoPath) {
 
-    public static Member withoutId(final String email, final String password) {
-        Member member = new Member();
+        final Member member = new Member();
+        member.id = id;
         member.email = email;
+        member.nickname = nickname;
         member.password = password;
+        member.phoneNumber = phoneNumber;
+        member.memberPhotoPath = memberPhotoPath;
 
         return member;
     }
