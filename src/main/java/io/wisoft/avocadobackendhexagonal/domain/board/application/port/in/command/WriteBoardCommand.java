@@ -6,5 +6,7 @@ import jakarta.validation.constraints.NotNull;
 public record WriteBoardCommand(
         @NotNull Long memberId,
         @NotBlank String title,
-        @NotBlank String body) {
+        @NotBlank String body,
+        @NotBlank String boardPhotoPath,
+        @NotBlank String dept) {
 }

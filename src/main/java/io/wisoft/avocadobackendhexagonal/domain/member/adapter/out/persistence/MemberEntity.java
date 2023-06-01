@@ -33,7 +33,7 @@ public class MemberEntity {
     @Column(name = "member_photo_path")
     private String memberPhotoPath;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE)
     private List<BoardEntity> boards = new ArrayList<>();
 
     public static MemberEntity createMemberEntity(

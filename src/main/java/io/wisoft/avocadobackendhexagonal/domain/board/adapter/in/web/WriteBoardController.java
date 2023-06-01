@@ -24,7 +24,7 @@ public class WriteBoardController {
         return ResponseEntity.ok(writeBoardUseCase.writeBoard(writeBoardCommand));
     }
 
-    private static WriteBoardCommand getCommand(final WriteBoardRequest request) {
+    private WriteBoardCommand getCommand(final WriteBoardRequest request) {
         return new WriteBoardCommand(request.memberId(), request.title(), request.body());
     }
 }

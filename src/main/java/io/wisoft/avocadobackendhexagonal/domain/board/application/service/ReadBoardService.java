@@ -33,7 +33,12 @@ public class ReadBoardService implements ReadBoardUseCase {
                 .collect(Collectors.toList()));
     }
 
-    private static BoardCommand boardToBoardCommand(final Board board) {
-        return new BoardCommand(board.getTitle(), board.getBody(), board.getMember().getEmail());
+    private BoardCommand boardToBoardCommand(final Board board) {
+        return new BoardCommand(
+                board.getTitle(),
+                board.getBody(),
+                board.getBoardPhotoPath(),
+                board.getDept().name(),
+                board.getMember().getEmail());
     }
 }
