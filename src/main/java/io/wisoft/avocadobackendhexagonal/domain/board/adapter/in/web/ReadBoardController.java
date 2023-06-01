@@ -29,7 +29,12 @@ public class ReadBoardController {
                 .toList());
     }
 
-    private static BoardDto boardCommandToBoardDto(final BoardCommand boardCommand) {
-        return new BoardDto(boardCommand.title(), boardCommand.body(), boardCommand.writer());
+    private BoardDto boardCommandToBoardDto(final BoardCommand boardCommand) {
+        return new BoardDto(
+                boardCommand.title(),
+                boardCommand.body(),
+                boardCommand.boardPhotoPath(),
+                boardCommand.dept(),
+                boardCommand.writer());
     }
 }

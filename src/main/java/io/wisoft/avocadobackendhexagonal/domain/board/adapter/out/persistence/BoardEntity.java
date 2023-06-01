@@ -1,56 +1,78 @@
 package io.wisoft.avocadobackendhexagonal.domain.board.adapter.out.persistence;
 
 import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberEntity;
+import io.wisoft.avocadobackendhexagonal.global.basetime.BaseTimeEntity;
+import io.wisoft.avocadobackendhexagonal.global.enumeration.status.BoardStatus;
+import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardEntity {
+public class BoardEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "board_id")
     private Long id;
 
+    @Column(name = "board_title", nullable = false)
     private String title;
+
+    @Column(name = "board_body", nullable = false, columnDefinition = "TEXT")
     private String body;
 
-    @CreatedDate @Column(updatable = false)
-    private LocalDateTime createdTime;
+    @Column(name = "board_photo_path")
+    private String boardPhotoPath;
 
-    @LastModifiedDate
-    private LocalDateTime modifiedTime;
+    @Column(name = "board_status")
+    @Enumerated(EnumType.STRING)
+    private BoardStatus status;
+
+    @Column(name = "dept")
+    @Enumerated(EnumType.STRING)
+    private HospitalDept dept;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    private MemberEntity member;
+    private MemberEntity memberEntity;
 
     /* 연관관계 편의 메서드 */
-    public void setMember(final MemberEntity member) {
+    public void setMemberEntity(final MemberEntity member) {
         //comment: 기존 관계 제거
-        if (this.member != null) {
-            this.member.getBoardList().remove(this);
+        if (this.memberEntity != null) {
+            this.memberEntity.getBoards().remove(this);
         }
 
-        this.member = member;
+        this.memberEntity = member;
 
         //comment: 무한루프 방지
-        if (!member.getBoardList().contains(this)) {
-            member.getBoardList().add(this);
+        if (!member.getBoards().contains(this)) {
+            member.getBoards().add(this);
         }
     }
 
-    public BoardEntity(final Long id, final String title, final String body, final MemberEntity member) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-        this.setMember(member);
+    public static BoardEntity createBoardEntity(
+            final Long id,
+            final String title,
+            final String body,
+            final String boardPhotoPath,
+            final HospitalDept dept,
+            final MemberEntity memberEntity) {
+
+        final BoardEntity boardEntity = new BoardEntity();
+        boardEntity.id = id;
+        boardEntity.title = title;
+        boardEntity.body = body;
+        boardEntity.boardPhotoPath = boardPhotoPath;
+        boardEntity.dept = dept;
+
+        boardEntity.setMemberEntity(memberEntity);
+        boardEntity.status = BoardStatus.WRITE;
+
+        return boardEntity;
     }
 }

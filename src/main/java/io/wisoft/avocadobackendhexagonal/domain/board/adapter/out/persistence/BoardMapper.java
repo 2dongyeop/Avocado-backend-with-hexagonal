@@ -1,31 +1,35 @@
 package io.wisoft.avocadobackendhexagonal.domain.board.adapter.out.persistence;
 
 import io.wisoft.avocadobackendhexagonal.domain.board.domain.Board;
+import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberMapper;
 import org.springframework.stereotype.Component;
 
-import static io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberMapper.memberEntityToMember;
-import static io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberMapper.memberToMemberEntity;
 
 @Component
 public class BoardMapper {
 
     public static BoardEntity boardToBoardEntity(final Board board) {
 
-        return new BoardEntity(
+        return BoardEntity.createBoardEntity(
                 board.getId() == null ? null : board.getId().longValue(),
                 board.getTitle(),
                 board.getBody(),
-                memberToMemberEntity(board.getMember()) == null ? null : memberToMemberEntity(board.getMember())
+                board.getBoardPhotoPath(),
+                board.getDept(),
+                MemberMapper.memberToMemberEntity(board.getMember())
         );
     }
 
     public static Board boardEntityToBoard(final BoardEntity boardEntity) {
 
-        return new Board(
+        return Board.createBoard(
                 boardEntity.getId(),
                 boardEntity.getTitle(),
                 boardEntity.getBody(),
-                memberEntityToMember(boardEntity.getMember())
+                boardEntity.getBoardPhotoPath(),
+                boardEntity.getStatus(),
+                boardEntity.getDept(),
+                MemberMapper.memberEntityToMember(boardEntity.getMemberEntity())
         );
     }
 }

@@ -27,7 +27,7 @@ public class UpdateBoardController {
         return ResponseEntity.ok().build();
     }
 
-    private static UpdateBoardCommand getCommand(final UpdateBoardRequest request) {
+    private UpdateBoardCommand getCommand(final UpdateBoardRequest request) {
         return new UpdateBoardCommand(
                 request.boardId(),
                 request.body()

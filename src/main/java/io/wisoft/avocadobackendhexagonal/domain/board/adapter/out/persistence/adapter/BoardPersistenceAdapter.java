@@ -42,10 +42,6 @@ public class BoardPersistenceAdapter implements SaveBoardPort, LoadBoardPort, De
                 .collect(Collectors.toList()));
     }
 
-    private static Board boardEntityToBoard(final BoardEntity boardEntity) {
-        return new Board(boardEntity.getId(), boardEntity.getTitle(), boardEntity.getBody(), MemberMapper.memberEntityToMember(boardEntity.getMember()));
-    }
-
     @Override
     public void delete(final Board board) {
         boardRepository.delete(boardMapper.boardToBoardEntity(board));

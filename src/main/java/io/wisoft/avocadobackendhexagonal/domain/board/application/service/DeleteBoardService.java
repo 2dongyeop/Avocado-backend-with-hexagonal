@@ -15,7 +15,7 @@ public class DeleteBoardService implements DeleteBoardUseCase {
     private final LoadBoardPort loadBoardPort;
 
     @Override
-    public void delete(Long boardId) {
+    public void delete(final Long boardId) {
         final Board board = loadBoardPort.findById(boardId);
         deleteBoardPort.delete(board);
     }
