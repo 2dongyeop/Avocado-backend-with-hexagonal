@@ -4,7 +4,7 @@ public record MemberDto(
         Long id,
         String email
 ) {
-    public MemberDto(Long id, String email) {
+    public MemberDto(final Long id, final String email) {
         this.id = id;
         this.email = email;
     }

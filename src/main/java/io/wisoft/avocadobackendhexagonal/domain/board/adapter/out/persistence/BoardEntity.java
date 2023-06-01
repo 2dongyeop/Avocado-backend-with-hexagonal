@@ -36,14 +36,14 @@ public class BoardEntity {
     public void setMember(final MemberEntity member) {
         //comment: 기존 관계 제거
         if (this.member != null) {
-            this.member.getBoardList().remove(this);
+            this.member.getBoards().remove(this);
         }
 
         this.member = member;
 
         //comment: 무한루프 방지
-        if (!member.getBoardList().contains(this)) {
-            member.getBoardList().add(this);
+        if (!member.getBoards().contains(this)) {
+            member.getBoards().add(this);
         }
     }
 
