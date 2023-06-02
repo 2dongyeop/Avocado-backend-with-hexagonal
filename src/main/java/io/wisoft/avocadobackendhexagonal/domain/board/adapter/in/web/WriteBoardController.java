@@ -25,6 +25,6 @@ public class WriteBoardController {
     }
 
     private WriteBoardCommand getCommand(final WriteBoardRequest request) {
-        return new WriteBoardCommand(request.memberId(), request.title(), request.body());
+        return new WriteBoardCommand(request.memberId(), request.title(), request.body(), request.boardPhotoPath(), request.dept());
     }
 }

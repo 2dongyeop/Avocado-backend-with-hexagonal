@@ -23,7 +23,13 @@ public class SignupController {
         return ResponseEntity.ok(signupUseCase.signup(signupCommand));
     }
 
-    private static SignupCommand getCommand(SignupRequest request) {
-        return new SignupCommand(request.email(), request.password());
+    private static SignupCommand getCommand(final SignupRequest request) {
+        return new SignupCommand(
+                request.email(),
+                request.nickname(),
+                request.password(),
+                request.phoneNumber(),
+                request.memberPhotoPath()
+        );
     }
 }

@@ -1,18 +1,17 @@
 package io.wisoft.avocadobackendhexagonal.domain.board.domain;
 
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
+import io.wisoft.avocadobackendhexagonal.global.basetime.BaseTimeDomain;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.status.BoardStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Board {
+public class Board extends BaseTimeDomain {
 
     private Long id;
     private String title;
@@ -21,8 +20,20 @@ public class Board {
     private BoardStatus status;
     private HospitalDept dept;
     private Member member;
-    private LocalDateTime createdDate;
-    private LocalDateTime lastModifiedDate;
+
+    public void setMember(final Member member) {
+        //comment: 기존 관계 제거
+        if (this.member != null) {
+            this.member.getBoards().remove(this);
+        }
+
+        this.member = member;
+
+        //comment: 무한루프 방지
+        if (!member.getBoards().contains(this)) {
+            member.getBoards().add(this);
+        }
+    }
 
     public static Board createBoard(
             final Long id,
@@ -41,14 +52,13 @@ public class Board {
         board.status = status;
         board.dept = dept;
         board.member = member;
-        board.createdDate = LocalDateTime.now();
-        board.lastModifiedDate = LocalDateTime.now();
+        board.createDomain();
 
         return board;
     }
 
     public void update(final String newBody) {
         this.body = newBody;
-        this.lastModifiedDate = LocalDateTime.now();
+        this.updateDomain();
     }
 }
