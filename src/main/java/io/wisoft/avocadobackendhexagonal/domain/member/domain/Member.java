@@ -1,8 +1,12 @@
 package io.wisoft.avocadobackendhexagonal.domain.member.domain;
 
+import io.wisoft.avocadobackendhexagonal.domain.board.domain.Board;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,6 +18,7 @@ public class Member {
     private String password;
     private String phoneNumber;
     private String memberPhotoPath;
+    private List<Board> boards = new ArrayList<>();
 
     public static Member createMember(
             final Long id,

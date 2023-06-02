@@ -16,7 +16,14 @@ public class SignUpService implements SignupUseCase {
     @Override
     public Long signup(final SignupCommand request) {
 
-        final Member member = Member.withoutId(request.email(), request.password());
+        final Member member = Member.createMember(
+                null,
+                request.email(),
+                request.nickname(),
+                request.password(),
+                request.phoneNumber(),
+                request.memberPhotoPath()
+        );
 
         return saveMemberPort.save(member);
     }
