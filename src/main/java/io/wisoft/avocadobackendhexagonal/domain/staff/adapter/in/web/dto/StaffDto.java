@@ -1,4 +1,4 @@
-package io.wisoft.avocadobackendhexagonal.domain.staff.adapter.in.web;
+package io.wisoft.avocadobackendhexagonal.domain.staff.adapter.in.web.dto;
 
 
 import jakarta.validation.constraints.NotBlank;

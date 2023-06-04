@@ -1,6 +1,5 @@
 package io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.out.persistence;
 
-import io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.out.persistence.HospitalEntity;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.domain.Hospital;
 import org.springframework.stereotype.Component;
 
