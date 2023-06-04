@@ -1,5 +1,6 @@
 package io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.out.persistence.adapter;
 
+import io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.out.persistence.HospitalMapper;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.out.persistence.HospitalRepository;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.application.port.out.SaveHospitalPort;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.domain.Hospital;

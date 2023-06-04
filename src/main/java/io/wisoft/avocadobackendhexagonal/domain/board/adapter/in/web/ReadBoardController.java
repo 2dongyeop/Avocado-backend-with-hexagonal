@@ -30,11 +30,6 @@ public class ReadBoardController {
     }
 
     private BoardDto boardCommandToBoardDto(final BoardCommand boardCommand) {
-        return new BoardDto(
-                boardCommand.title(),
-                boardCommand.body(),
-                boardCommand.boardPhotoPath(),
-                boardCommand.dept(),
-                boardCommand.writer());
+        return new BoardDto(boardCommand);
     }
 }
