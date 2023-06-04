@@ -7,6 +7,7 @@ import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.Dele
 import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.SaveMemberPort;
 import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.LoadMemberPort;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
+import io.wisoft.avocadobackendhexagonal.global.exception.notfound.NotFoundMemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ public class MemberPersistenceAdapter implements LoadMemberPort, SaveMemberPort,
     @Override
     public Member findById(final Long memberId) {
         final MemberEntity memberEntity = memberRepository.findById(memberId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(NotFoundMemberException::new);
 
         return MemberMapper.memberEntityToMember(memberEntity);
     }

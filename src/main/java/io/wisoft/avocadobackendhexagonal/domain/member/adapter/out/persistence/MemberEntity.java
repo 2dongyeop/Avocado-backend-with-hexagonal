@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class MemberEntity {
     @Column(name = "member_photo_path")
     private String memberPhotoPath;
 
+    @Setter
     @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE)
     private List<BoardEntity> boards = new ArrayList<>();
 

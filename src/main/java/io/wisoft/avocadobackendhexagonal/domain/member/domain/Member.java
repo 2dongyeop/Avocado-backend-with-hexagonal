@@ -4,6 +4,7 @@ import io.wisoft.avocadobackendhexagonal.domain.board.domain.Board;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Member {
     private String password;
     private String phoneNumber;
     private String memberPhotoPath;
+    @Setter
     private List<Board> boards = new ArrayList<>();
 
     public static Member createMember(

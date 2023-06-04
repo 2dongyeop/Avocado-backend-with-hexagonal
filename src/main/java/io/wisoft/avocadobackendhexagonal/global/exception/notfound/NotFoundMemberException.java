@@ -1,4 +1,4 @@
 package io.wisoft.avocadobackendhexagonal.global.exception.notfound;
 
-public class NotFoundBoardException extends CustomNotFoundException {
+public class NotFoundMemberException extends CustomNotFoundException {
 }

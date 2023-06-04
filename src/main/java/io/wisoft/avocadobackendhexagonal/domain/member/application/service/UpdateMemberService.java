@@ -6,6 +6,7 @@ import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.Load
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class UpdateMemberService implements UpdateMemberUseCase {
     private final SaveMemberPort saveMemberPort;
 
     @Override
+    @Transactional
     public Long updateMember(final Long memberId, final String email) {
 
         final Member member = loadMemberPort.findById(memberId);

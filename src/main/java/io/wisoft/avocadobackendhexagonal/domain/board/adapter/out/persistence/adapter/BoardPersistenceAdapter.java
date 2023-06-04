@@ -7,7 +7,6 @@ import io.wisoft.avocadobackendhexagonal.domain.board.application.port.out.Delet
 import io.wisoft.avocadobackendhexagonal.domain.board.application.port.out.LoadBoardPort;
 import io.wisoft.avocadobackendhexagonal.domain.board.application.port.out.SaveBoardPort;
 import io.wisoft.avocadobackendhexagonal.domain.board.domain.Board;
-import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberMapper;
 import io.wisoft.avocadobackendhexagonal.global.exception.notfound.NotFoundBoardException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

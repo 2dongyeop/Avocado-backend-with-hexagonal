@@ -1,5 +1,6 @@
 package io.wisoft.avocadobackendhexagonal.domain.board.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 import io.wisoft.avocadobackendhexagonal.global.basetime.BaseTimeDomain;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;

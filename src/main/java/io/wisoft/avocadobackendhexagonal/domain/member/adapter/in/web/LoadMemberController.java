@@ -1,5 +1,6 @@
 package io.wisoft.avocadobackendhexagonal.domain.member.adapter.in.web;
 
+import io.wisoft.avocadobackendhexagonal.domain.board.adapter.in.web.dto.BoardDto;
 import io.wisoft.avocadobackendhexagonal.domain.member.adapter.in.web.dto.MemberDto;
 import io.wisoft.avocadobackendhexagonal.domain.member.application.port.in.LoadMemberUseCase;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
@@ -31,7 +32,17 @@ public class LoadMemberController {
                 .toList();
     }
 
-    private static MemberDto getMemberDto(final Member member) {
-        return new MemberDto(member.getId(), member.getEmail());
+    private MemberDto getMemberDto(final Member member) {
+        return new MemberDto(
+                member.getId(),
+                member.getEmail(),
+                member.getNickname(),
+                member.getPhoneNumber(),
+                member.getMemberPhotoPath(),
+
+                member.getBoards().stream()
+                        .map(board -> new BoardDto(board))
+                        .toList()
+        );
     }
 }
