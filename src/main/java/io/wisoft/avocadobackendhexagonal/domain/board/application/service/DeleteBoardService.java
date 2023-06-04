@@ -6,6 +6,7 @@ import io.wisoft.avocadobackendhexagonal.domain.board.application.port.out.LoadB
 import io.wisoft.avocadobackendhexagonal.domain.board.domain.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +16,7 @@ public class DeleteBoardService implements DeleteBoardUseCase {
     private final LoadBoardPort loadBoardPort;
 
     @Override
+    @Transactional
     public void delete(final Long boardId) {
         final Board board = loadBoardPort.findById(boardId);
         deleteBoardPort.delete(board);

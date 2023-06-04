@@ -10,6 +10,7 @@ import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.status.BoardStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class WriteBoardService implements WriteBoardUseCase {
     private final LoadMemberPort loadMemberPort;
 
     @Override
+    @Transactional
     public Long writeBoard(final WriteBoardCommand request) {
         final Member member = loadMemberPort.findById(request.memberId());
         final Board board = Board.createBoard(
