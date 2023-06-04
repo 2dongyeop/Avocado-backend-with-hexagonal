@@ -1,8 +1,10 @@
 package io.wisoft.avocadobackendhexagonal.domain.auth.adapter.in.web;
 
 import io.wisoft.avocadobackendhexagonal.domain.auth.adapter.in.web.dto.SignupMemberRequest;
+import io.wisoft.avocadobackendhexagonal.domain.auth.adapter.in.web.dto.SignupStaffRequest;
 import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.SignupUseCase;
 import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command.SignupMemberCommand;
+import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command.SignupStaffCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +21,32 @@ public class SignupController {
     @PostMapping("/api/auth/signup/members")
     public ResponseEntity<Long> signupMember(@RequestBody @Valid final SignupMemberRequest request) {
 
-        final SignupMemberCommand signupMemberCommand = getCommand(request);
-        return ResponseEntity.ok(signupUseCase.signup(signupMemberCommand));
+        final SignupMemberCommand signupMemberCommand = getSignupMemberCommand(request);
+        return ResponseEntity.ok(signupUseCase.signupMember(signupMemberCommand));
     }
 
 
+    @PostMapping("/api/auth/signup/staff")
+    public ResponseEntity<Long> signupStaff(@RequestBody @Valid final SignupStaffRequest request) {
+
+        final SignupStaffCommand signupStaffCommand = getSignupStaffCommand(request);
+        return ResponseEntity.ok(signupUseCase.signupStaff(signupStaffCommand));
+    }
+
+    private SignupStaffCommand getSignupStaffCommand(final SignupStaffRequest request) {
+        final SignupStaffCommand signupStaffCommand = new SignupStaffCommand(
+                request.name(),
+                request.email(),
+                request.password(),
+                request.license_path(),
+                request.dept(),
+                request.hospitalId()
+        );
+        return signupStaffCommand;
+    }
 
 
-    private SignupMemberCommand getCommand(final SignupMemberRequest request) {
+    private SignupMemberCommand getSignupMemberCommand(final SignupMemberRequest request) {
         return new SignupMemberCommand(
                 request.email(),
                 request.nickname(),
