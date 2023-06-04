@@ -4,6 +4,7 @@ import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.out.SaveSt
 import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence.StaffEntity;
 import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence.StaffMapper;
 import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence.StaffRepository;
+import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.DeleteStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.LoadStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
 import io.wisoft.avocadobackendhexagonal.global.exception.notfound.NotFoundStaffException;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class StaffPersistenceAdapter implements SaveStaffPort, LoadStaffPort {
+public class StaffPersistenceAdapter implements SaveStaffPort, LoadStaffPort, DeleteStaffPort {
 
     private final StaffRepository staffRepository;
 
@@ -30,6 +31,12 @@ public class StaffPersistenceAdapter implements SaveStaffPort, LoadStaffPort {
     }
 
     @Override
+    public StaffEntity findStaffEntityById(final Long staffId) {
+        return staffRepository.findById(staffId)
+                .orElseThrow(NotFoundStaffException::new);
+    }
+
+    @Override
     public List<Staff> findAll() {
         return staffRepository.findAll().stream()
                 .map(staffEntity
@@ -40,5 +47,10 @@ public class StaffPersistenceAdapter implements SaveStaffPort, LoadStaffPort {
     @Override
     public boolean existsByEmail(final String email) {
         return staffRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void delete(final StaffEntity staffEntity) {
+        staffRepository.delete(staffEntity);
     }
 }
