@@ -1,10 +1,14 @@
 package io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.out.persistence;
 
+import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence.StaffEntity;
 import io.wisoft.avocadobackendhexagonal.global.basetime.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +30,9 @@ public class HospitalEntity extends BaseTimeEntity {
 
     @Column(name = "hosp_operatingtime", columnDefinition="TEXT")
     private String operatingTime;
+
+    @OneToMany(mappedBy = "hospital")
+    private final List<StaffEntity> staffList = new ArrayList<>();
 
     public static HospitalEntity createHospital(
             final Long id,
