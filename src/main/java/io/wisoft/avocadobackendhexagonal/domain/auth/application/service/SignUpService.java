@@ -8,8 +8,10 @@ import io.wisoft.avocadobackendhexagonal.domain.hospital.application.port.out.Lo
 import io.wisoft.avocadobackendhexagonal.domain.hospital.domain.Hospital;
 import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.SaveMemberPort;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
+import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.LoadStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
+import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateStaffException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class SignUpService implements SignupUseCase {
 
     private final SaveMemberPort saveMemberPort;
     private final SaveStaffPort saveStaffPort;
+    private final LoadStaffPort loadStaffPort;
     private final LoadHospitalPort loadHospitalPort;
 
     @Override
@@ -39,18 +42,26 @@ public class SignUpService implements SignupUseCase {
     @Override
     public Long signupStaff(final SignupStaffCommand request) {
 
-        final Hospital hospital = loadHospitalPort.findById(request.hospitalId());
+        validateDuplicateStaffEmail(request.email());
 
+        final Hospital hospital = loadHospitalPort.findById(request.hospitalId());
         final Staff staff = Staff.createStaff(
                 null,
                 request.name(),
                 request.email(),
                 request.password(),
                 request.license_path(),
+                null,
                 HospitalDept.valueOf(request.dept()),
                 hospital
         );
 
         return saveStaffPort.save(staff);
+    }
+
+    private void validateDuplicateStaffEmail(final String email) {
+        if (loadStaffPort.existsByEmail(email)) {
+            throw new DuplicateStaffException("이메일이 중복된 의료진이 존재합니다.");
+        }
     }
 }

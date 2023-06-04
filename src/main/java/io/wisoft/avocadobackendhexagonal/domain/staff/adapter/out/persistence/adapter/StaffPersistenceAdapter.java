@@ -4,7 +4,7 @@ import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.out.SaveSt
 import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence.StaffEntity;
 import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence.StaffMapper;
 import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence.StaffRepository;
-import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.in.LoadStaffPort;
+import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.LoadStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
 import io.wisoft.avocadobackendhexagonal.global.exception.notfound.NotFoundStaffException;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +35,10 @@ public class StaffPersistenceAdapter implements SaveStaffPort, LoadStaffPort {
                 .map(staffEntity
                         -> StaffMapper.staffEntityToStaff(staffEntity))
                 .toList();
+    }
+
+    @Override
+    public boolean existsByEmail(final String email) {
+        return staffRepository.existsByEmail(email);
     }
 }

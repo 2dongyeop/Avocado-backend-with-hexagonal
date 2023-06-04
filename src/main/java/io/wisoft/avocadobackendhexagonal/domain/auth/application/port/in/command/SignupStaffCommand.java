@@ -1,11 +1,14 @@
 package io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 public record SignupStaffCommand(
-        String name,
-        String email,
-        String password,
-        String license_path,
-        String dept,
-        Long hospitalId
+        @NotBlank String name,
+        @NotBlank String email,
+        @NotBlank String password,
+        @NotBlank String license_path,
+        @NotBlank String dept,
+        @NotNull Long hospitalId
 ) {
 }
