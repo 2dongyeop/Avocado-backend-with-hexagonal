@@ -62,6 +62,7 @@ public class StaffEntity {
             final String email,
             final String password,
             final String license_path,
+            final String staffPhotoPath,
             final HospitalDept dept,
             final HospitalEntity hospital
     ) {
@@ -71,6 +72,7 @@ public class StaffEntity {
         staffEntity.email = email;
         staffEntity.password = password;
         staffEntity.license_path = license_path;
+        staffEntity.staffPhotoPath = staffPhotoPath;
         staffEntity.dept = dept;
         staffEntity.setHospital(hospital);
 

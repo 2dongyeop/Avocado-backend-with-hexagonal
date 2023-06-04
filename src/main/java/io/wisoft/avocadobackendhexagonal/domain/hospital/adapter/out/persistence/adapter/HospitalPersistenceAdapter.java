@@ -33,6 +33,14 @@ public class HospitalPersistenceAdapter implements SaveHospitalPort, LoadHospita
     }
 
     @Override
+    public Hospital findByName(final String hospitalName) {
+        final HospitalEntity hospitalEntity = hospitalRepository.findByName(hospitalName)
+                .orElseThrow(NotFoundHospitalException::new);
+
+        return HospitalMapper.hospitalEntityToHospital(hospitalEntity);
+    }
+
+    @Override
     public List<Hospital> findAll() {
         return hospitalRepository.findAll().stream()
                 .map(hospitalEntity

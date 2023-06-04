@@ -7,6 +7,7 @@ import java.util.List;
 public interface LoadHospitalPort {
 
     Hospital findById(final Long hospitalId);
+    Hospital findByName(final String hospitalName);
 
     List<Hospital> findAll();
 

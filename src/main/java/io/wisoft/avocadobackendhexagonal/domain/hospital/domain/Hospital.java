@@ -1,9 +1,13 @@
 package io.wisoft.avocadobackendhexagonal.domain.hospital.domain;
 
+import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
 import io.wisoft.avocadobackendhexagonal.global.basetime.BaseTimeDomain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,7 +17,7 @@ public class Hospital extends BaseTimeDomain {
     private String number;
     private String address;
     private String operatingTime;
-
+    private final List<Staff> staffList = new ArrayList<>();
 
     public static Hospital registerHospital(
             final Long id,

@@ -15,6 +15,7 @@ public class StaffMapper {
                 staff.getEmail(),
                 staff.getPassword(),
                 staff.getLicense_path(),
+                staff.getStaffPhotoPath() == null ? null : staff.getStaffPhotoPath(),
                 staff.getDept(),
                 HospitalMapper.hospitalToHospitalEntity(staff.getHospital())
         );
@@ -29,6 +30,7 @@ public class StaffMapper {
                 staffEntity.getEmail(),
                 staffEntity.getPassword(),
                 staffEntity.getLicense_path(),
+                staffEntity.getStaffPhotoPath(),
                 staffEntity.getDept(),
                 HospitalMapper.hospitalEntityToHospital(staffEntity.getHospital())
         );

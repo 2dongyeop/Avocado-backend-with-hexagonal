@@ -15,6 +15,7 @@ public class Staff {
     private String password;
     private String license_path;
     private HospitalDept dept;
+    private String staffPhotoPath;
     private Hospital hospital;
 
     public static Staff createStaff (
@@ -23,6 +24,7 @@ public class Staff {
             final String email,
             final String password,
             final String license_path,
+            final String staffPhotoPath,
             final HospitalDept dept,
             final Hospital hospital) {
 
@@ -32,9 +34,22 @@ public class Staff {
         staff.email = email;
         staff.password = password;
         staff.license_path = license_path;
+        staff.staffPhotoPath = staffPhotoPath;
         staff.dept = dept;
         staff.hospital = hospital;
 
         return staff;
+    }
+
+    public void updateHospital(final Hospital hospital) {
+        this.hospital = hospital;
+    }
+
+    public void updatePhotoPath(final String photoPath) {
+        this.staffPhotoPath = photoPath;
+    }
+
+    public void updatePassword(final String newPassword) {
+        this.password = newPassword;
     }
 }
