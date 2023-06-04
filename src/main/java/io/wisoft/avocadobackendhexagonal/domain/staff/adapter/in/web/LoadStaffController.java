@@ -1,5 +1,6 @@
 package io.wisoft.avocadobackendhexagonal.domain.staff.adapter.in.web;
 
+import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.in.web.dto.StaffDto;
 import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.in.LoadStaffUseCase;
 import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
 import lombok.RequiredArgsConstructor;
