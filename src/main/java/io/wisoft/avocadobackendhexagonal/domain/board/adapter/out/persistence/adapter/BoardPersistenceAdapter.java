@@ -21,28 +21,27 @@ import java.util.stream.Collectors;
 public class BoardPersistenceAdapter implements SaveBoardPort, LoadBoardPort, DeleteBoardPort {
 
     private final BoardRepository boardRepository;
-    private final BoardMapper boardMapper;
 
     @Override
     public Long save(final Board board) {
-        return boardRepository.save(boardMapper.boardToBoardEntity(board)).getId();
+        return boardRepository.save(BoardMapper.boardToBoardEntity(board)).getId();
     }
 
     @Override
     public Board findById(final Long boardId) {
         final BoardEntity boardEntity = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
-        return boardMapper.boardEntityToBoard(boardEntity);
+        return BoardMapper.boardEntityToBoard(boardEntity);
     }
 
     @Override
     public Page<Board> findAll(final Pageable pageable) {
         return new PageImpl<>(boardRepository.findAll(pageable).stream()
-                .map(boardEntity -> BoardMapper.boardEntityToBoard(boardEntity))
+                .map(BoardMapper::boardEntityToBoard)
                 .collect(Collectors.toList()));
     }
 
     @Override
     public void delete(final Board board) {
-        boardRepository.delete(boardMapper.boardToBoardEntity(board));
+        boardRepository.delete(BoardMapper.boardToBoardEntity(board));
     }
 }
