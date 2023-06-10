@@ -1,4 +1,4 @@
-package io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.in.web;
+package io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.in.web.dto;
 
 public record HospitalDto(
         Long id,

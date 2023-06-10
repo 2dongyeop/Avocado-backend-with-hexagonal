@@ -8,27 +8,29 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/members")
 @RequiredArgsConstructor
 public class LoadMemberController {
 
     private final LoadMemberUseCase loadMemberUseCase;
 
-    @GetMapping("/api/members/{id}/details")
+    @GetMapping("{id}/details")
     public ResponseEntity<MemberDto> member(@PathVariable("id") final Long id) {
         final Member member = loadMemberUseCase.loadMember(id);
         return ResponseEntity.ok(getMemberDto(member));
     }
 
-    @GetMapping("/api/members")
+    @GetMapping
     public List<MemberDto> members() {
         final List<Member> members = loadMemberUseCase.loadMemberList();
         return members.stream()
-                .map(member -> getMemberDto(member))
+                .map(this::getMemberDto)
                 .toList();
     }
 
@@ -41,7 +43,7 @@ public class LoadMemberController {
                 member.getMemberPhotoPath(),
 
                 member.getBoards().stream()
-                        .map(board -> new BoardDto(board))
+                        .map(BoardDto::new)
                         .toList()
         );
     }

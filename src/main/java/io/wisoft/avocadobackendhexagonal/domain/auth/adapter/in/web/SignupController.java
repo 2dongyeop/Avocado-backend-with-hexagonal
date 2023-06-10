@@ -10,15 +10,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class SignupController {
 
     private final SignupUseCase signupUseCase;
 
-    @PostMapping("/api/auth/signup/members")
+    @PostMapping("/signup/members")
     public ResponseEntity<Long> signupMember(@RequestBody @Valid final SignupMemberRequest request) {
 
         final SignupMemberCommand signupMemberCommand = getSignupMemberCommand(request);
@@ -26,7 +28,7 @@ public class SignupController {
     }
 
 
-    @PostMapping("/api/auth/signup/staff")
+    @PostMapping("/signup/staff")
     public ResponseEntity<Long> signupStaff(@RequestBody @Valid final SignupStaffRequest request) {
 
         final SignupStaffCommand signupStaffCommand = getSignupStaffCommand(request);
@@ -34,7 +36,7 @@ public class SignupController {
     }
 
     private SignupStaffCommand getSignupStaffCommand(final SignupStaffRequest request) {
-        final SignupStaffCommand signupStaffCommand = new SignupStaffCommand(
+        return new SignupStaffCommand(
                 request.name(),
                 request.email(),
                 request.password(),
@@ -42,7 +44,6 @@ public class SignupController {
                 request.dept(),
                 request.hospitalId()
         );
-        return signupStaffCommand;
     }
 
 
