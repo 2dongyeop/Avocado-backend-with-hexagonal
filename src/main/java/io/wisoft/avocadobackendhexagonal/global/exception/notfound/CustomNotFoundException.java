@@ -1,8 +1,19 @@
 package io.wisoft.avocadobackendhexagonal.global.exception.notfound;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
+import lombok.Getter;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "entity not found")
+@Getter
 public class CustomNotFoundException extends RuntimeException {
+
+    private ErrorCode errorCode;
+
+    public CustomNotFoundException() {
+        this.errorCode = ErrorCode.NOT_FOUND;
+    }
+
+    public CustomNotFoundException(final String message, final ErrorCode errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

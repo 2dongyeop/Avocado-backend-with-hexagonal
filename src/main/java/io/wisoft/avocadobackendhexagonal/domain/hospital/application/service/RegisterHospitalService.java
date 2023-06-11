@@ -5,6 +5,7 @@ import io.wisoft.avocadobackendhexagonal.domain.hospital.application.port.in.com
 import io.wisoft.avocadobackendhexagonal.domain.hospital.application.port.out.LoadHospitalPort;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.application.port.out.SaveHospitalPort;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.domain.Hospital;
+import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
 import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateHospitalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class RegisterHospitalService implements RegisterHospitalUseCase {
     private void validateDuplicateHospitalName(final String name) {
         if(loadHospitalPort.findByExistsByName(name)) {
             log.error("중복된 이름의 병원이 이미 존재합니다.");
-            throw new DuplicateHospitalException("중복된 이름의 병원이 이미 존재합니다.");
+            throw new DuplicateHospitalException("중복된 이름의 병원이 이미 존재합니다.", ErrorCode.DUPLICATE_HOSPITAL);
         }
     }
 }

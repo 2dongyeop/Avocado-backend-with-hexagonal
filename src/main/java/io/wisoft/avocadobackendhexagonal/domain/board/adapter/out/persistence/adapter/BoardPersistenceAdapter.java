@@ -7,7 +7,8 @@ import io.wisoft.avocadobackendhexagonal.domain.board.application.port.out.Delet
 import io.wisoft.avocadobackendhexagonal.domain.board.application.port.out.LoadBoardPort;
 import io.wisoft.avocadobackendhexagonal.domain.board.application.port.out.SaveBoardPort;
 import io.wisoft.avocadobackendhexagonal.domain.board.domain.Board;
-import io.wisoft.avocadobackendhexagonal.global.exception.notfound.NotFoundBoardException;
+import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
+import io.wisoft.avocadobackendhexagonal.global.exception.notfound.CustomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,7 +30,8 @@ public class BoardPersistenceAdapter implements SaveBoardPort, LoadBoardPort, De
 
     @Override
     public Board findById(final Long boardId) {
-        final BoardEntity boardEntity = boardRepository.findById(boardId).orElseThrow(NotFoundBoardException::new);
+        final BoardEntity boardEntity = boardRepository.findById(boardId)
+                .orElseThrow(CustomNotFoundException::new);
         return BoardMapper.boardEntityToBoard(boardEntity);
     }
 

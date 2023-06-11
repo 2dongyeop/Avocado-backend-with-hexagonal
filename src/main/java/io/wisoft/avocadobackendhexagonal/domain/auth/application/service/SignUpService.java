@@ -11,7 +11,8 @@ import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.LoadStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
-import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateStaffException;
+import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
+import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateEmailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +62,7 @@ public class SignUpService implements SignupUseCase {
 
     private void validateDuplicateStaffEmail(final String email) {
         if (loadStaffPort.existsByEmail(email)) {
-            throw new DuplicateStaffException("이메일이 중복된 의료진이 존재합니다.");
+            throw new DuplicateEmailException("이메일이 중복된 의료진이 존재합니다.", ErrorCode.DUPLICATE_EMAIL);
         }
     }
 }
