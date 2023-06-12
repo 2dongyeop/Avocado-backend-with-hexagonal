@@ -8,7 +8,8 @@ public record SignupStaffRequest(
         @NotBlank @Email
         String name,
         @NotBlank String email,
-        @NotBlank String password,
+        @NotBlank String password1,
+        @NotBlank String password2,
         @NotBlank String license_path,
         @NotBlank String dept,
         @NotNull Long hospitalId

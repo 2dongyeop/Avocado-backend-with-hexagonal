@@ -7,7 +7,8 @@ public record SignupMemberRequest(
         @NotBlank @Email
         String email,
         @NotBlank String nickname,
-        @NotBlank String password,
+        @NotBlank String password1,
+        @NotBlank String password2,
         @NotBlank String phoneNumber,
         @NotBlank String memberPhotoPath
 ) {

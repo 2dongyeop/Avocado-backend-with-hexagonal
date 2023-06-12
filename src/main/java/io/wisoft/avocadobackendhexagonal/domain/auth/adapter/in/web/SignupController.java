@@ -5,6 +5,8 @@ import io.wisoft.avocadobackendhexagonal.domain.auth.adapter.in.web.dto.SignupSt
 import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.SignupUseCase;
 import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command.SignupMemberCommand;
 import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command.SignupStaffCommand;
+import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
+import io.wisoft.avocadobackendhexagonal.global.exception.Illegal.CustomIllegalException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ public class SignupController {
     @PostMapping("/signup/members")
     public ResponseEntity<Long> signupMember(@RequestBody @Valid final SignupMemberRequest request) {
 
+        validatePassword(request.password1(), request.password2());
+
         final SignupMemberCommand signupMemberCommand = getSignupMemberCommand(request);
         return ResponseEntity.ok(signupUseCase.signupMember(signupMemberCommand));
     }
@@ -35,11 +39,18 @@ public class SignupController {
         return ResponseEntity.ok(signupUseCase.signupStaff(signupStaffCommand));
     }
 
+    private void validatePassword(final String password, final String confirmPassword) {
+
+        if (!password.equals(confirmPassword)) {
+            throw new CustomIllegalException("비밀번호와 확인비밀번호가 다릅니다.", ErrorCode.ILLEGAL_INPUT);
+        }
+    }
+
     private SignupStaffCommand getSignupStaffCommand(final SignupStaffRequest request) {
         return new SignupStaffCommand(
                 request.name(),
                 request.email(),
-                request.password(),
+                request.password1(),
                 request.license_path(),
                 request.dept(),
                 request.hospitalId()
@@ -51,7 +62,7 @@ public class SignupController {
         return new SignupMemberCommand(
                 request.email(),
                 request.nickname(),
-                request.password(),
+                request.password1(),
                 request.phoneNumber(),
                 request.memberPhotoPath()
         );
