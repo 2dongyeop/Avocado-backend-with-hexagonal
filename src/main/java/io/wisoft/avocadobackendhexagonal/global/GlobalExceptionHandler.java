@@ -5,6 +5,8 @@ import io.wisoft.avocadobackendhexagonal.global.exception.ErrorResponse;
 import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateEmailException;
 import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateHospitalException;
 import io.wisoft.avocadobackendhexagonal.global.exception.notfound.CustomNotFoundException;
+import io.wisoft.avocadobackendhexagonal.global.exception.token.ExpiredTokenException;
+import io.wisoft.avocadobackendhexagonal.global.exception.token.InvalidTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -57,6 +59,28 @@ public class GlobalExceptionHandler {
     private ResponseEntity<ErrorResponse> getResponse(final ErrorCode errorCode) {
         final ErrorResponse errorResponse = new ErrorResponse(errorCode);
         return new ResponseEntity<>(errorResponse, HttpStatusCode.valueOf(errorCode.getHttpStatusCode()));
+    }
+
+
+    /**
+     * 토큰이 유효하지 않은 경우
+     */
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidTokenException(final InvalidTokenException exception) {
+
+        log.error("handleInvalidTokenException", exception);
+        return getResponse(exception.getErrorCode());
+    }
+
+
+    /**
+     * 토큰이 만료시간이 지난 경우
+     */
+    @ExceptionHandler(ExpiredTokenException.class)
+    public ResponseEntity<ErrorResponse> handleExpiredTokenException(final ExpiredTokenException exception) {
+
+        log.error("handleExpiredTokenException", exception);
+        return getResponse(exception.getErrorCode());
     }
 
 

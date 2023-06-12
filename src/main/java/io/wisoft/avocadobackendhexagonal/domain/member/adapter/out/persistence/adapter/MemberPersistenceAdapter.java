@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -32,6 +33,15 @@ public class MemberPersistenceAdapter implements LoadMemberPort, SaveMemberPort,
         return memberRepository.findAll().stream()
                 .map(memberEntity ->  MemberMapper.memberEntityToMember(memberEntity))
                 .toList();
+    }
+
+    @Override
+    public Member findByEmail(final String email) {
+
+        final MemberEntity memberEntity = memberRepository.findByEmail(email)
+                .orElseThrow(CustomNotFoundException::new);
+
+        return MemberMapper.memberEntityToMember(memberEntity);
     }
 
     @Override

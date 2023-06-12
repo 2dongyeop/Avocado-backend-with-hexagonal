@@ -5,9 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record SignupStaffRequest(
-        @NotBlank @Email
+        @NotBlank
         String name,
-        @NotBlank String email,
+        @NotBlank @Email
+        String email,
         @NotBlank String password1,
         @NotBlank String password2,
         @NotBlank String license_path,

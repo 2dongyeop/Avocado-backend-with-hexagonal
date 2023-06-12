@@ -39,14 +39,20 @@ public class StaffPersistenceAdapter implements SaveStaffPort, LoadStaffPort, De
     @Override
     public List<Staff> findAll() {
         return staffRepository.findAll().stream()
-                .map(staffEntity
-                        -> StaffMapper.staffEntityToStaff(staffEntity))
+                .map(StaffMapper::staffEntityToStaff)
                 .toList();
     }
 
     @Override
     public boolean existsByEmail(final String email) {
         return staffRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Staff findByEmail(final String email) {
+        final StaffEntity staffEntity = staffRepository.findByEmail(email)
+                .orElseThrow(CustomNotFoundException::new);
+        return StaffMapper.staffEntityToStaff(staffEntity);
     }
 
     @Override

@@ -20,8 +20,13 @@ public enum ErrorCode {
     HANDLE_ACCESS_DENIED(403, "System-403", "Handle access denied"),
     METHOD_NOT_ALLOWED(405, "System-405", "Method not allowed"),
     METHOD_ARGUMENT_TYPE_MISMATCH(400, "System-400", "Method argument type mismatch"),
-    INVALID_INPUT_VALUE(400, "Sytem-400", "Invalid input value");
+    INVALID_INPUT_VALUE(400, "Sytem-400", "Invalid input value"),
 
+    //Illegal
+    INVALID_PASSWORD(400, "Illegal-400", "Invalid password1"),
+    ILLEGAL_INPUT(400, "Illegal-400", "Invalid input"),
+    INVALID_TOKEN(400, "Token-400", "Invalid token"),
+    EXPIRED_TOKEN(400, "Token-400", "Expired token");
 
     private int httpStatusCode;
     private String errorCode;
