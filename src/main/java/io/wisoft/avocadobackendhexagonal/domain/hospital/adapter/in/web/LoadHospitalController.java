@@ -22,27 +22,16 @@ public class LoadHospitalController {
     @GetMapping("/{id}/details")
     public ResponseEntity<HospitalDto> hospital(@PathVariable final Long id) {
         final Hospital hospital = loadHospitalUseCase.loadHospital(id);
-        final HospitalDto hospitalDto = getHospitalDto(hospital);
 
-        return ResponseEntity.ok(hospitalDto);
+        return ResponseEntity.ok(HospitalDto.of(hospital));
     }
 
     @GetMapping
     public ResponseEntity<List<HospitalDto>> hospitals() {
         final List<HospitalDto> hospitalDtoList = loadHospitalUseCase.loadHospitalList().stream()
-                .map(hospital -> getHospitalDto(hospital))
+                .map(hospital -> HospitalDto.of(hospital))
                 .toList();
 
         return ResponseEntity.ok(hospitalDtoList);
-    }
-
-    private HospitalDto getHospitalDto(final Hospital hospital) {
-        return new HospitalDto(
-                hospital.getId(),
-                hospital.getName(),
-                hospital.getNumber(),
-                hospital.getAddress(),
-                hospital.getOperatingTime()
-        );
     }
 }
