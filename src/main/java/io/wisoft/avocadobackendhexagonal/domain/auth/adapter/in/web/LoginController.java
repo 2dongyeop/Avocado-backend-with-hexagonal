@@ -4,6 +4,7 @@ import io.wisoft.avocadobackendhexagonal.domain.auth.adapter.in.web.dto.LoginReq
 import io.wisoft.avocadobackendhexagonal.domain.auth.adapter.in.web.dto.TokenResponse;
 import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.LoginUseCase;
 import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command.LoginCommand;
+import io.wisoft.avocadobackendhexagonal.domain.auth.application.port.in.command.TokenCommand;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,9 @@ public class LoginController {
     public ResponseEntity<TokenResponse> signupMember(@RequestBody @Valid final LoginRequest request) {
 
         final LoginCommand loginCommand = getLoginCommand(request);
-        final String token = loginUseCase.loginMember(loginCommand);
-        return ResponseEntity.ok(new TokenResponse(token, "bearer"));
+        final TokenCommand tokenCommand = loginUseCase.loginMember(loginCommand);
+
+        return ResponseEntity.ok(TokenResponse.of(tokenCommand));
     }
 
 
@@ -32,8 +34,9 @@ public class LoginController {
     public ResponseEntity<TokenResponse> loginStaff(@RequestBody @Valid final LoginRequest request) {
 
         final LoginCommand loginCommand = getLoginCommand(request);
-        final String token = loginUseCase.loginStaff(loginCommand);
-        return ResponseEntity.ok(new TokenResponse(token, "bearer"));
+        final TokenCommand tokenCommand = loginUseCase.loginStaff(loginCommand);
+
+        return ResponseEntity.ok(TokenResponse.of(tokenCommand));
     }
 
     private LoginCommand getLoginCommand(final LoginRequest request) {
