@@ -10,9 +10,9 @@ import io.wisoft.avocadobackendhexagonal.global.config.bcrypt.EncryptHelper;
 import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
 import io.wisoft.avocadobackendhexagonal.global.exception.Illegal.CustomIllegalException;
 import io.wisoft.avocadobackendhexagonal.global.jwt.JwtTokenProvider;
+import io.wisoft.avocadobackendhexagonal.global.redis.RedisAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +28,7 @@ public class LoginService implements LoginUseCase {
     private final LoadStaffPort loadStaffPort;
     private final LoadMemberPort loadMemberPort;
     private final JwtTokenProvider jwtTokenProvider;
-    private final StringRedisTemplate redis;
+    private final RedisAdapter redisAdapter;
     private final EncryptHelper encryptHelper;
 
     @Override
@@ -65,7 +65,7 @@ public class LoginService implements LoginUseCase {
 
 
     private void saveRedis(final String token, final String name) {
-        redis.opsForValue().set(
+        redisAdapter.setValue(
                 token,
                 name,
                 LOGIN_EXPIRED_TIME,

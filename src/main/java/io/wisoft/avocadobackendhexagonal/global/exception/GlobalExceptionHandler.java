@@ -1,4 +1,4 @@
-package io.wisoft.avocadobackendhexagonal.global;
+package io.wisoft.avocadobackendhexagonal.global.exception;
 
 import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
 import io.wisoft.avocadobackendhexagonal.global.exception.ErrorResponse;
@@ -7,6 +7,7 @@ import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateHos
 import io.wisoft.avocadobackendhexagonal.global.exception.notfound.CustomNotFoundException;
 import io.wisoft.avocadobackendhexagonal.global.exception.token.ExpiredTokenException;
 import io.wisoft.avocadobackendhexagonal.global.exception.token.InvalidTokenException;
+import io.wisoft.avocadobackendhexagonal.global.exception.token.NotExistTokenException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -80,6 +81,17 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleExpiredTokenException(final ExpiredTokenException exception) {
 
         log.error("handleExpiredTokenException", exception);
+        return getResponse(exception.getErrorCode());
+    }
+
+
+    /**
+     * JWT 토큰이 적재되지 않았을 경우
+     */
+    @ExceptionHandler(NotExistTokenException.class)
+    public ResponseEntity<ErrorResponse> handleNotExistTokenException(final NotExistTokenException exception) {
+
+        log.error("handleNotExistTokenException", exception);
         return getResponse(exception.getErrorCode());
     }
 
