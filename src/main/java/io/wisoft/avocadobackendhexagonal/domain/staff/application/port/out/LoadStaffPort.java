@@ -13,4 +13,6 @@ public interface LoadStaffPort {
     List<Staff> findAll();
 
     boolean existsByEmail(final String email);
+
+    Staff findByEmail(final String email);
 }

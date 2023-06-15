@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/staff")
 @RequiredArgsConstructor
 public class UpdateStaffController {
 
     private final UpdateStaffUseCase updateStaffUseCase;
 
-    @PatchMapping("/api/staff/{id}/password")
+    @PatchMapping("/{id}/password")
     public ResponseEntity<Void> updateStaffPassword(
             @PathVariable("id") final Long id,
             @RequestBody @Valid final UpdateStaffPasswordRequest request) {
@@ -25,7 +26,7 @@ public class UpdateStaffController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/api/staff/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> updateStaff(
             @PathVariable("id") final Long id,
             @RequestParam(value = "hospitalName", required = false) final String hospitalName,
@@ -36,10 +37,9 @@ public class UpdateStaffController {
     }
 
     private UpdateStaffPasswordCommand getUpdateStaffPasswordCommand(final UpdateStaffPasswordRequest request) {
-        final UpdateStaffPasswordCommand command = new UpdateStaffPasswordCommand(
+        return new UpdateStaffPasswordCommand(
                 request.oldPassword(),
                 request.newPassword()
         );
-        return command;
     }
 }

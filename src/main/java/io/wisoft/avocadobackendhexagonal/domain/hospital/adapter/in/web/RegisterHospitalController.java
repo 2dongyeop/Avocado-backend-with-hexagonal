@@ -8,15 +8,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/hospitals")
 @RequiredArgsConstructor
 public class RegisterHospitalController {
     
     private final RegisterHospitalUseCase useCase;
 
-    @PostMapping("/api/hospitals")
+    @PostMapping
     public ResponseEntity<Long> registerHospitalRequest(
             @RequestBody @Valid final RegisterHospitalRequest request) {
 

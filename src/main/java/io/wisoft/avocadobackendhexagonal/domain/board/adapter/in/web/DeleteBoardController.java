@@ -5,15 +5,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/boards")
 @RequiredArgsConstructor
 public class DeleteBoardController {
 
     private final DeleteBoardUseCase deleteBoardUseCase;
 
-    @DeleteMapping("/api/boards/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBoard(@PathVariable final Long id) {
 
         deleteBoardUseCase.delete(id);

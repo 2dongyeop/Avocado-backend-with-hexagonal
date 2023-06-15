@@ -7,7 +7,7 @@ import io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence.St
 import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.DeleteStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.LoadStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
-import io.wisoft.avocadobackendhexagonal.global.exception.notfound.NotFoundStaffException;
+import io.wisoft.avocadobackendhexagonal.global.exception.notfound.CustomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -26,27 +26,33 @@ public class StaffPersistenceAdapter implements SaveStaffPort, LoadStaffPort, De
 
     @Override
     public Staff findById(final Long staffId) {
-        final StaffEntity staffEntity = staffRepository.findById(staffId).orElseThrow(NotFoundStaffException::new);
+        final StaffEntity staffEntity = staffRepository.findById(staffId).orElseThrow(CustomNotFoundException::new);
         return StaffMapper.staffEntityToStaff(staffEntity);
     }
 
     @Override
     public StaffEntity findStaffEntityById(final Long staffId) {
         return staffRepository.findById(staffId)
-                .orElseThrow(NotFoundStaffException::new);
+                .orElseThrow(CustomNotFoundException::new);
     }
 
     @Override
     public List<Staff> findAll() {
         return staffRepository.findAll().stream()
-                .map(staffEntity
-                        -> StaffMapper.staffEntityToStaff(staffEntity))
+                .map(StaffMapper::staffEntityToStaff)
                 .toList();
     }
 
     @Override
     public boolean existsByEmail(final String email) {
         return staffRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Staff findByEmail(final String email) {
+        final StaffEntity staffEntity = staffRepository.findByEmail(email)
+                .orElseThrow(CustomNotFoundException::new);
+        return StaffMapper.staffEntityToStaff(staffEntity);
     }
 
     @Override

@@ -6,7 +6,7 @@ import io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.out.persistence
 import io.wisoft.avocadobackendhexagonal.domain.hospital.application.port.out.LoadHospitalPort;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.application.port.out.SaveHospitalPort;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.domain.Hospital;
-import io.wisoft.avocadobackendhexagonal.global.exception.notfound.NotFoundHospitalException;
+import io.wisoft.avocadobackendhexagonal.global.exception.notfound.CustomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ public class HospitalPersistenceAdapter implements SaveHospitalPort, LoadHospita
     @Override
     public Hospital findById(final Long hospitalId) {
         final HospitalEntity hospitalEntity = hospitalRepository.findById(hospitalId)
-                .orElseThrow(NotFoundHospitalException::new);
+                .orElseThrow(CustomNotFoundException::new);
 
         return HospitalMapper.hospitalEntityToHospital(hospitalEntity);
     }
@@ -35,7 +35,7 @@ public class HospitalPersistenceAdapter implements SaveHospitalPort, LoadHospita
     @Override
     public Hospital findByName(final String hospitalName) {
         final HospitalEntity hospitalEntity = hospitalRepository.findByName(hospitalName)
-                .orElseThrow(NotFoundHospitalException::new);
+                .orElseThrow(CustomNotFoundException::new);
 
         return HospitalMapper.hospitalEntityToHospital(hospitalEntity);
     }

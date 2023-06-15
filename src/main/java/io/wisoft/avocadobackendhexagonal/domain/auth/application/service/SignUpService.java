@@ -10,8 +10,10 @@ import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.Save
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.LoadStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
+import io.wisoft.avocadobackendhexagonal.global.config.bcrypt.EncryptHelper;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
-import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateStaffException;
+import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
+import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateEmailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ public class SignUpService implements SignupUseCase {
     private final SaveStaffPort saveStaffPort;
     private final LoadStaffPort loadStaffPort;
     private final LoadHospitalPort loadHospitalPort;
+    private final EncryptHelper encryptHelper;
 
     @Override
     public Long signupMember(final SignupMemberCommand request) {
@@ -31,7 +34,7 @@ public class SignUpService implements SignupUseCase {
                 null,
                 request.email(),
                 request.nickname(),
-                request.password(),
+                encryptHelper.encrypt(request.password()),
                 request.phoneNumber(),
                 request.memberPhotoPath()
         );
@@ -49,7 +52,7 @@ public class SignUpService implements SignupUseCase {
                 null,
                 request.name(),
                 request.email(),
-                request.password(),
+                encryptHelper.encrypt(request.password()),
                 request.license_path(),
                 null,
                 HospitalDept.valueOf(request.dept()),
@@ -61,7 +64,7 @@ public class SignUpService implements SignupUseCase {
 
     private void validateDuplicateStaffEmail(final String email) {
         if (loadStaffPort.existsByEmail(email)) {
-            throw new DuplicateStaffException("이메일이 중복된 의료진이 존재합니다.");
+            throw new DuplicateEmailException("이메일이 중복된 의료진이 존재합니다.", ErrorCode.DUPLICATE_EMAIL);
         }
     }
 }

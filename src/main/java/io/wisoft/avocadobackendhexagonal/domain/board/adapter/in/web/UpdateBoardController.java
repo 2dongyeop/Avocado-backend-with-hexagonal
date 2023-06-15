@@ -5,18 +5,16 @@ import io.wisoft.avocadobackendhexagonal.domain.board.application.port.in.Update
 import io.wisoft.avocadobackendhexagonal.domain.board.application.port.in.command.UpdateBoardCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/api/boards")
 @RequiredArgsConstructor
 public class UpdateBoardController {
 
     private final UpdateBoardUseCase updateBoardUseCase;
 
-    @PatchMapping("/api/boards/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> updateBoard(
             @PathVariable final Long id,
             @RequestBody final UpdateBoardRequest request) {

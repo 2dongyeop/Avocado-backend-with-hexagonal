@@ -9,4 +9,6 @@ public interface LoadMemberPort {
     Member findById(final Long memberId);
 
     List<Member> findAll();
+
+    Member findByEmail(final String email);
 }

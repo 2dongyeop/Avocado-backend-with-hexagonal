@@ -9,20 +9,22 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/boards")
 @RequiredArgsConstructor
 public class ReadBoardController {
 
     private final ReadBoardUseCase readBoardUseCase;
 
-    @GetMapping("/api/boards/{id}/details")
+    @GetMapping("/{id}/details")
     public BoardDto board(@PathVariable final Long id) {
         return boardCommandToBoardDto(readBoardUseCase.readBoard(id));
     }
 
-    @GetMapping("/api/boards")
+    @GetMapping
     public Page<BoardDto> readBoardList(final Pageable pageable) {
         return new PageImpl<>(readBoardUseCase.readBoardList(pageable).stream()
                 .map(boardCommand -> boardCommandToBoardDto(boardCommand))

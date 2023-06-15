@@ -7,11 +7,12 @@ import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.Dele
 import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.SaveMemberPort;
 import io.wisoft.avocadobackendhexagonal.domain.member.application.port.out.LoadMemberPort;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
-import io.wisoft.avocadobackendhexagonal.global.exception.notfound.NotFoundMemberException;
+import io.wisoft.avocadobackendhexagonal.global.exception.notfound.CustomNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class MemberPersistenceAdapter implements LoadMemberPort, SaveMemberPort,
     @Override
     public Member findById(final Long memberId) {
         final MemberEntity memberEntity = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
+                .orElseThrow(CustomNotFoundException::new);
 
         return MemberMapper.memberEntityToMember(memberEntity);
     }
@@ -32,6 +33,15 @@ public class MemberPersistenceAdapter implements LoadMemberPort, SaveMemberPort,
         return memberRepository.findAll().stream()
                 .map(memberEntity ->  MemberMapper.memberEntityToMember(memberEntity))
                 .toList();
+    }
+
+    @Override
+    public Member findByEmail(final String email) {
+
+        final MemberEntity memberEntity = memberRepository.findByEmail(email)
+                .orElseThrow(CustomNotFoundException::new);
+
+        return MemberMapper.memberEntityToMember(memberEntity);
     }
 
     @Override
