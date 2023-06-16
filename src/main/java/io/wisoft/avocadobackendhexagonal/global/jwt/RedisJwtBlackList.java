@@ -1,9 +1,9 @@
 package io.wisoft.avocadobackendhexagonal.global.jwt;
 
+import io.wisoft.avocadobackendhexagonal.global.redis.RedisAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -13,22 +13,25 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisJwtBlackList {
 
-    private final int TIME_OUT = 1 * 60 * 60; //1 hour
-    private final RedisTemplate<String, String> redisTemplate;
-    private final StringRedisTemplate stringRedisTemplate;
+    @Value("${security.jwt.token.logout-length}")
+    private int LOGOUT_TIME;
 
-    public void addToBlackList(final String jwt) {
+    private final RedisAdapter redisAdapter;
+    private final String LOGOUT_STATUS = "LOGOUT_STATUS";
 
-        if (isContained(jwt)) {
-            stringRedisTemplate.delete(jwt);
+
+    public void addToBlackList(final String email) {
+
+        if (isContained(email)) {
+            redisAdapter.deleteValue(email);
         }
 
-        redisTemplate.opsForValue().set(jwt, "blacklisted", TIME_OUT, TimeUnit.SECONDS);
-        log.info("redis : 토큰 {}을 로그아웃 처리합니다.", jwt);
+        redisAdapter.setValue(email, LOGOUT_STATUS, LOGOUT_TIME, TimeUnit.SECONDS);
+        log.info("redis : {}을 로그아웃 처리합니다.", email);
     }
 
-    private boolean isContained(final String jwt) {
-        return redisTemplate.hasKey(jwt);
+    public boolean isContained(final String email) {
+        return redisAdapter.hasKey(email);
     }
 }
 
