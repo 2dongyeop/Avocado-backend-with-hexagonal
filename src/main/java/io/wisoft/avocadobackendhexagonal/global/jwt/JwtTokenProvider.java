@@ -3,13 +3,13 @@ package io.wisoft.avocadobackendhexagonal.global.jwt;
 import io.jsonwebtoken.*;
 
 import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
+import io.wisoft.avocadobackendhexagonal.global.exception.token.AlreadyLogoutException;
 import io.wisoft.avocadobackendhexagonal.global.exception.token.ExpiredTokenException;
 import io.wisoft.avocadobackendhexagonal.global.exception.token.InvalidTokenException;
 import io.wisoft.avocadobackendhexagonal.global.redis.RedisAdapter;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
@@ -69,9 +69,9 @@ public class JwtTokenProvider {
     /**
      * 토큰에서 값 추출
      */
-    public String getSubject(final String key) {
+    public String getSubject(final String token) {
         return Jwts.parser().setSigningKey(secretKey)
-                .parseClaimsJws(key)
+                .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
@@ -79,25 +79,49 @@ public class JwtTokenProvider {
     /**
      * 유효한 토큰인지 확인
      */
-    public boolean validateToken(final String key) {
+    public boolean validateToken(final String email) {
+
+        /** 유효하지 않은 토큰일 경우 */
+        isValidToken(email);
+
+        /** 로그아웃 처리된 토큰으로 요청할 경우 */
+        validIsAlreadyLogout(email);
+
         try {
-
-            /** 유효하지 않은 토큰일 경우 */
-            if (redisAdapter.getValue(key) == null) {
-                throw new InvalidTokenException("유효하지 않은 토큰입니다.", ErrorCode.INVALID_TOKEN);
-            }
-
-            final Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(key);
+            final Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(email);
 
             /** 만료시간이 지났을 경우 */
-            if (claims.getBody().getExpiration().before(new Date())) {
-                log.error("만료시간이 지난 토큰입니다.");
-                throw new ExpiredTokenException("만료시간이 지난 토큰입니다.", ErrorCode.EXPIRED_TOKEN);
-            }
+            isExpiredToken(claims);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             /* do nothing! */
             return false;
+        }
+    }
+
+    private void isValidToken(final String email) {
+
+        if (!redisAdapter.hasKey(email)) {
+            throw new InvalidTokenException("유효하지 않은 토큰입니다.", ErrorCode.INVALID_TOKEN);
+        }
+    }
+
+
+    private void isExpiredToken(final Jws<Claims> claims) {
+
+        if (claims.getBody().getExpiration().before(new Date())) {
+            throw new ExpiredTokenException("만료시간이 지난 토큰입니다.", ErrorCode.EXPIRED_TOKEN);
+        }
+    }
+
+
+    private void validIsAlreadyLogout(final String email) {
+
+        final String value = redisAdapter.getValue(email);
+        System.out.println("value = " + value);
+
+        if (value.equals("LOGOUT_STATUS")) {
+            throw new AlreadyLogoutException("로그아웃 처리된 토큰입니다.", ErrorCode.ALREADY_LOGOUT_TOKEN);
         }
     }
 }
