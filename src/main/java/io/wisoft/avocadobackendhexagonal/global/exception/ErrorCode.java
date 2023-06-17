@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 public enum ErrorCode {
 
     //COMMON
+    ASSERT_INVALID_INPUT(400, "Common-Builder-400", "Builder가 요구하는 필수 파라미터가 요구되지 않았습니다."),
     NOT_FOUND(404, "Common-NotFound-404", "해당 엔티티를 찾을 수 없습니다."),
+    TIME_OUT(500, "Common-TimeOut-500", "Timeout 발생"),
 
     //DUPLICATE,
     DUPLICATE_EMAIL(400, "Duplicate-Mail-400", "Email is duplicated"),
@@ -26,7 +28,10 @@ public enum ErrorCode {
     INVALID_PASSWORD(400, "Illegal-400", "Invalid password1"),
     ILLEGAL_INPUT(400, "Illegal-400", "Invalid input"),
     INVALID_TOKEN(400, "Token-400", "Invalid token"),
-    EXPIRED_TOKEN(400, "Token-400", "Expired token");
+    EXPIRED_TOKEN(400, "Token-400", "Expired token"),
+    ALREADY_LOGOUT_TOKEN(403, "Token-403", "Already logout token"),
+    JWT_EXCEPTION(400, "Token-400", "JWT is invalid"),
+    NOT_EXIST_TOKEN(401, "Illegal-Not-Exist-Token-401", "Token is not exist");
 
     private int httpStatusCode;
     private String errorCode;

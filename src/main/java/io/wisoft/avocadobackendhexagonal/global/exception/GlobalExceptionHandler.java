@@ -1,10 +1,10 @@
 package io.wisoft.avocadobackendhexagonal.global.exception;
 
-import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
-import io.wisoft.avocadobackendhexagonal.global.exception.ErrorResponse;
+import io.jsonwebtoken.JwtException;
 import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateEmailException;
 import io.wisoft.avocadobackendhexagonal.global.exception.duplicate.DuplicateHospitalException;
 import io.wisoft.avocadobackendhexagonal.global.exception.notfound.CustomNotFoundException;
+import io.wisoft.avocadobackendhexagonal.global.exception.token.AlreadyLogoutException;
 import io.wisoft.avocadobackendhexagonal.global.exception.token.ExpiredTokenException;
 import io.wisoft.avocadobackendhexagonal.global.exception.token.InvalidTokenException;
 import io.wisoft.avocadobackendhexagonal.global.exception.token.NotExistTokenException;
@@ -18,12 +18,27 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.net.BindException;
 import java.nio.file.AccessDeniedException;
+import java.time.LocalDateTime;
+import java.util.concurrent.TimeoutException;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * @Builder 사용으로 인해 요구된 파라미터 유효성 검사시
+     * Assert.nonNull, Assert.hasText 등을 통해 발생되는 예외
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(final IllegalArgumentException exception) {
+
+        log.error("handleIllegalArgumentException", exception);
+        final ErrorResponse response = new ErrorResponse(ErrorCode.ASSERT_INVALID_INPUT);
+
+        return new ResponseEntity<>(response, HttpStatusCode.valueOf(response.getHttpStatusCode()));
+    }
+
 
     /**
      * 엔티티 조회 실패시
@@ -33,6 +48,18 @@ public class GlobalExceptionHandler {
 
         log.error("handlerNotFoundException", exception);
         return getResponse(exception.getErrorCode());
+    }
+
+
+    /**
+     * java.util.concurrent.TimeoutException
+     * 제한시간을 지나 타임아웃시 발생하는 예외
+     */
+    @ExceptionHandler(TimeoutException.class)
+    public ResponseEntity<ErrorResponse> handleTimeoutException(final TimeoutException exception) {
+
+        log.error("handleTimeoutException", exception);
+        return getResponse(ErrorCode.TIME_OUT);
     }
 
 
@@ -82,6 +109,28 @@ public class GlobalExceptionHandler {
 
         log.error("handleExpiredTokenException", exception);
         return getResponse(exception.getErrorCode());
+    }
+
+
+    /**
+     * 로그아웃된 토큰으로 요청할 경우
+     */
+    @ExceptionHandler(AlreadyLogoutException.class)
+    public ResponseEntity<ErrorResponse> handleAlreadyLogoutException(final AlreadyLogoutException exception) {
+
+        log.error("handleAlreadyLogoutException", exception);
+        return getResponse(exception.getErrorCode());
+    }
+
+
+    /**
+     * JWT exception
+     */
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ErrorResponse> handleJwtException(final JwtException exception) {
+
+        log.error("handleJwtException", exception);
+        return getResponse(ErrorCode.JWT_EXCEPTION);
     }
 
 
