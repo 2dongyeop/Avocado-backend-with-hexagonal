@@ -6,6 +6,9 @@ import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.in.Update
 import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.in.command.UpdateStaffPasswordCommand;
 import io.wisoft.avocadobackendhexagonal.domain.staff.application.port.out.LoadStaffPort;
 import io.wisoft.avocadobackendhexagonal.domain.staff.domain.Staff;
+import io.wisoft.avocadobackendhexagonal.global.config.bcrypt.EncryptHelper;
+import io.wisoft.avocadobackendhexagonal.global.exception.ErrorCode;
+import io.wisoft.avocadobackendhexagonal.global.exception.Illegal.CustomIllegalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,7 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class UpdateStaffService implements UpdateStaffUseCase {
 
+    private final EncryptHelper encryptHelper;
     private final LoadStaffPort loadStaffPort;
     private final SaveStaffPort saveStaffPort;
     private final LoadHospitalPort loadHospitalPort;
@@ -45,14 +49,13 @@ public class UpdateStaffService implements UpdateStaffUseCase {
         final Staff staff = loadStaffPort.findById(staffId);
         validatePassword(staff.getPassword(), command.oldPassword());
 
-        staff.updatePassword(command.newPassword());
+        staff.updatePassword(encryptHelper.encrypt(command.newPassword()));
         return saveStaffPort.save(staff);
     }
 
     private void validatePassword(final String password, final String oldPassword) {
-        if (!password.equals(oldPassword)) {
-            log.error("비밀번호가 일치하지 않아 비밀번호를 수정할 수 없습니다.");
-            throw new IllegalArgumentException("비밀번호가 일치하지 않아 비밀번호를 수정할 수 없습니다.");
+        if (!encryptHelper.isMatch(oldPassword, password)) {
+            throw new CustomIllegalException("password is invalid", ErrorCode.INVALID_PASSWORD);
         }
     }
 }
