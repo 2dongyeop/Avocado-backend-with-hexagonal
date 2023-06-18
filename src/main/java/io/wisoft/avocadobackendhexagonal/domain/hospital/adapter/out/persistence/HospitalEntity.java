@@ -31,7 +31,7 @@ public class HospitalEntity extends BaseTimeEntity {
     @Column(name = "hosp_operatingtime", columnDefinition="TEXT")
     private String operatingTime;
 
-    @OneToMany(mappedBy = "hospital")
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.REMOVE)
     private final List<StaffEntity> staffList = new ArrayList<>();
 
     public static HospitalEntity createHospital(

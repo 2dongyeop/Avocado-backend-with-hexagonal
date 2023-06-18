@@ -54,7 +54,7 @@ public class UpdateStaffService implements UpdateStaffUseCase {
     }
 
     private void validatePassword(final String password, final String oldPassword) {
-        if (!encryptHelper.isMatch(password, oldPassword)) {
+        if (!encryptHelper.isMatch(oldPassword, password)) {
             throw new CustomIllegalException("password is invalid", ErrorCode.INVALID_PASSWORD);
         }
     }
