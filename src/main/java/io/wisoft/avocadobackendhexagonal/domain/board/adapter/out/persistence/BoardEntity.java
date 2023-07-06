@@ -1,13 +1,17 @@
 package io.wisoft.avocadobackendhexagonal.domain.board.adapter.out.persistence;
 
+import io.wisoft.avocadobackendhexagonal.domain.boardreply.adapter.out.persistence.BoardReplyEntity;
 import io.wisoft.avocadobackendhexagonal.domain.member.adapter.out.persistence.MemberEntity;
 import io.wisoft.avocadobackendhexagonal.global.basetime.BaseTimeEntity;
-import io.wisoft.avocadobackendhexagonal.global.enumeration.status.BoardStatus;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
+import io.wisoft.avocadobackendhexagonal.global.enumeration.status.BoardStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -39,6 +43,10 @@ public class BoardEntity extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private MemberEntity memberEntity;
+
+    @OneToMany(mappedBy = "boardEntity")
+    private List<BoardReplyEntity> boardReplyEntities = new ArrayList<>();
+
 
     /* 연관관계 편의 메서드 */
     public void setMemberEntity(final MemberEntity member) {

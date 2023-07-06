@@ -1,6 +1,6 @@
 package io.wisoft.avocadobackendhexagonal.domain.board.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.wisoft.avocadobackendhexagonal.domain.boardreply.domain.BoardReply;
 import io.wisoft.avocadobackendhexagonal.domain.member.domain.Member;
 import io.wisoft.avocadobackendhexagonal.global.basetime.BaseTimeDomain;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
@@ -8,6 +8,9 @@ import io.wisoft.avocadobackendhexagonal.global.enumeration.status.BoardStatus;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -21,6 +24,7 @@ public class Board extends BaseTimeDomain {
     private BoardStatus status;
     private HospitalDept dept;
     private Member member;
+    private List<BoardReply> boardReplies = new ArrayList<>();
 
     public void setMember(final Member member) {
         //comment: 기존 관계 제거
