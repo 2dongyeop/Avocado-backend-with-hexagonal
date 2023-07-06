@@ -1,10 +1,13 @@
 package io.wisoft.avocadobackendhexagonal.domain.staff.domain;
 
+import io.wisoft.avocadobackendhexagonal.domain.boardreply.domain.BoardReply;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.domain.Hospital;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,6 +20,7 @@ public class Staff {
     private HospitalDept dept;
     private String staffPhotoPath;
     private Hospital hospital;
+    private List<BoardReply> boardReplies;
 
     public static Staff createStaff (
             final Long id,

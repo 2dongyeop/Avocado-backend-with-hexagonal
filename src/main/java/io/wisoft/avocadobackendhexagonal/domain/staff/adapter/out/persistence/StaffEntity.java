@@ -1,11 +1,15 @@
 package io.wisoft.avocadobackendhexagonal.domain.staff.adapter.out.persistence;
 
+import io.wisoft.avocadobackendhexagonal.domain.boardreply.adapter.out.persistence.BoardReplyEntity;
 import io.wisoft.avocadobackendhexagonal.domain.hospital.adapter.out.persistence.HospitalEntity;
 import io.wisoft.avocadobackendhexagonal.global.enumeration.HospitalDept;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -40,6 +44,9 @@ public class StaffEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hosp_id")
     private HospitalEntity hospital;
+
+    @OneToMany(mappedBy = "staffEntity")
+    private List<BoardReplyEntity> boardReplyEntities = new ArrayList<>();
 
     /* 연관관계 메서드 */
     public void setHospital(final HospitalEntity hospital) {
